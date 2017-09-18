@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "758633680656",
+    "firebase_url": "https://mvpbase-android.firebaseio.com",
+    "project_id": "mvpbase-android",
+    "storage_bucket": "mvpbase-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:758633680656:android:b6f783f8e168ebde",
+        "android_client_info": {
+          "package_name": "com.paditech.mvpbase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "758633680656-h2sir40epsvv597cdp1vapeagkjpkn4u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.paditech.mvpbase",
+            "certificate_hash": "b6727d640c05689d777cf3f0e4919dbee9202277"
+          }
+        },
+        {
+          "client_id": "758633680656-v8o4k3iit8ndcnf52inm3fkmn5f23tv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_AFl8VisWkWGZ9idguRyrGkRs7NPlHUk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "758633680656-v8o4k3iit8ndcnf52inm3fkmn5f23tv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

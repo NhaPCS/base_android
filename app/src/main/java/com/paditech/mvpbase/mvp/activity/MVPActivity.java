@@ -205,7 +205,7 @@ public abstract class MVPActivity<P extends ActivityPresenterViewOps> extends Ba
                         fragmentTransaction.addSharedElement(shareElement, transitionName);
                     if (addBackStack)
                         fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.add(res, fragment, fragment.getClass().getSimpleName());
+                    fragmentTransaction.replace(res, fragment, fragment.getClass().getSimpleName());
                     fragmentTransaction.commit();
                 } catch (Exception e) {
                     e.printStackTrace();

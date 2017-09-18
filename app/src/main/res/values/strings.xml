@@ -3,6 +3,7 @@
     <!--permission-->
     <string name="mess_permission_storage">Bạn có muốn cho phép ứng dụng này sử dụng bộ nhớ không?</string>
     <string name="mess_permission_camera">Bạn có muốn cho phép ứng dụng này sử dụng camera không?</string>
+    <string name="mess_permission_location">Bạn có muốn cho phép ứng dụng này truy cập vị trí của bạn không?</string>
     <string name="ok">OK</string>
     <string name="cancel">Hủy</string>
 
