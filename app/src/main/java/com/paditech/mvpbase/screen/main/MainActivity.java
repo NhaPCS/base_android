@@ -1,5 +1,7 @@
 package com.paditech.mvpbase.screen.main;
 
+import android.widget.Toast;
+
 import com.paditech.mvpbase.R;
 import com.paditech.mvpbase.common.mvp.activity.ActivityPresenter;
 import com.paditech.mvpbase.common.mvp.activity.MVPActivity;

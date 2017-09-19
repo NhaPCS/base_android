@@ -4,6 +4,9 @@
     <string name="mess_permission_storage">Bạn có muốn cho phép ứng dụng này sử dụng bộ nhớ không?</string>
     <string name="mess_permission_camera">Bạn có muốn cho phép ứng dụng này sử dụng camera không?</string>
     <string name="mess_permission_location">Bạn có muốn cho phép ứng dụng này truy cập vị trí của bạn không?</string>
+
+    <!--Action-->
+    <string name="refresh">Tải lại</string>
     <string name="ok">OK</string>
     <string name="cancel">Hủy</string>
 
@@ -12,4 +15,7 @@
     <string name="select_image">Chọn ảnh</string>
     <string name="pick_image">Chọn từ thư viện</string>
     <string name="capture_image">Chụp ảnh</string>
+
+    <!--Message -->
+    <string name="mess_no_connect">Không có kết nối mạng.</string>
 </resources>
