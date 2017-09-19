@@ -21,4 +21,5 @@
     <dimen name="loading_size">30dp</dimen>
     <dimen name="line_size">0.8dp</dimen>
     <dimen name="radius_small">5dp</dimen>
+    <dimen name="radius_image">8dp</dimen>
 </resources>
