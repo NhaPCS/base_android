@@ -13,6 +13,7 @@ import com.paditech.mvpbase.common.mvp.BaseViewOps;
  * This class contain all common behavior for Activity in this App
  */
 public interface ActivityViewOps extends BaseViewOps {
+
     /**
      * @return context of View
      */
@@ -29,11 +30,17 @@ public interface ActivityViewOps extends BaseViewOps {
 
     void showAlertDialog(String msg);
 
+    void showAlertDialog(boolean hasTitle, String msg);
+
+    void showAlertDialog(boolean hasTitle, String msg, BaseDialog.OnPositiveClickListener cancelListener);
+
     void showAlertDialog(String msg, BaseDialog.OnPositiveClickListener cancelListener);
+
+    void showConfirmDialog(boolean hasTitle, String msg, BaseDialog.OnPositiveClickListener positiveListener, BaseDialog.OnNegativeClickListener negativeListener);
 
     void showConfirmDialog(String msg, BaseDialog.OnPositiveClickListener positiveListener, BaseDialog.OnNegativeClickListener negativeListener);
 
-    void showConfirmDialog(String msg, String positive, String negative, BaseDialog.OnPositiveClickListener positiveListener, BaseDialog.OnNegativeClickListener negativeListener);
+    void showConfirmDialog(boolean hasTitle, String msg, String positive, String negative, BaseDialog.OnPositiveClickListener positiveListener, BaseDialog.OnNegativeClickListener negativeListener);
 
     void showToast(String msg);
 
@@ -48,5 +55,15 @@ public interface ActivityViewOps extends BaseViewOps {
     void replaceFragment(FragmentManager manager, Fragment fragment, int res, boolean addBackStack, int enter, int exit, int popEnter, int popExit);
 
     void replaceFragment(FragmentManager manager, Fragment fragment, int res, boolean addBackStack, View shareElement, String transitionName);
+
+    void popBackStack(FragmentManager manager);
+
+    void popBackStack();
+
+    void popBackStack(FragmentManager manager, String tag);
+
+    void popBackStack(String tag);
+
+    void clearBackStack();
 }
 

@@ -27,25 +27,30 @@ public class MessageDialog extends BaseDialog {
     private OnPositiveClickListener mOnPositiveClickListener;
     private OnNegativeClickListener mOnNegativeClickListener;
     private String message, okText, cancelText;
+    private boolean hasTitle;
 
-    public static MessageDialog newInstance(String message) {
+
+    public static MessageDialog newInstance(boolean hasTitle, String message) {
         MessageDialog messageDialog = new MessageDialog();
         messageDialog.message = message;
+        messageDialog.hasTitle = hasTitle;
         return messageDialog;
     }
 
-    public static MessageDialog newInstance(String message, String ok) {
+    public static MessageDialog newInstance(boolean hasTitle, String message, String ok) {
         MessageDialog messageDialog = new MessageDialog();
         messageDialog.message = message;
         messageDialog.okText = ok;
+        messageDialog.hasTitle = hasTitle;
         return messageDialog;
     }
 
-    public static MessageDialog newInstance(String message, String ok, String cancelText) {
+    public static MessageDialog newInstance(boolean hasTitle, String message, String ok, String cancelText) {
         MessageDialog messageDialog = new MessageDialog();
         messageDialog.message = message;
         messageDialog.okText = ok;
         messageDialog.cancelText = cancelText;
+        messageDialog.hasTitle = hasTitle;
         return messageDialog;
     }
 

@@ -100,7 +100,32 @@ public abstract class MVPActivity<P extends ActivityPresenterViewOps> extends Ba
             @Override
             public void run() {
                 if (mDialog != null) mDialog.dismiss();
-                mDialog = MessageDialog.newInstance(msg);
+                mDialog = MessageDialog.newInstance(false, msg);
+                mDialog.show(getSupportFragmentManager(), mDialog.getClass().getSimpleName());
+            }
+        });
+    }
+
+    @Override
+    public void showAlertDialog(boolean hasTitle, final String msg) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mDialog != null) mDialog.dismiss();
+                mDialog = MessageDialog.newInstance(true, msg);
+                mDialog.show(getSupportFragmentManager(), mDialog.getClass().getSimpleName());
+            }
+        });
+    }
+
+    @Override
+    public void showAlertDialog(final boolean hasTitle, final String msg, final BaseDialog.OnPositiveClickListener positiveClickListener) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mDialog != null) mDialog.dismiss();
+                mDialog = MessageDialog.newInstance(hasTitle, msg);
+                mDialog.setmOnPositiveClickListener(positiveClickListener);
                 mDialog.show(getSupportFragmentManager(), mDialog.getClass().getSimpleName());
             }
         });
@@ -112,7 +137,7 @@ public abstract class MVPActivity<P extends ActivityPresenterViewOps> extends Ba
             @Override
             public void run() {
                 if (mDialog != null) mDialog.dismiss();
-                mDialog = MessageDialog.newInstance(msg);
+                mDialog = MessageDialog.newInstance(false, msg);
                 mDialog.setmOnPositiveClickListener(positiveClickListener);
                 mDialog.show(getSupportFragmentManager(), mDialog.getClass().getSimpleName());
             }
@@ -125,7 +150,21 @@ public abstract class MVPActivity<P extends ActivityPresenterViewOps> extends Ba
             @Override
             public void run() {
                 if (mDialog != null) mDialog.dismiss();
-                mDialog = MessageDialog.newInstance(msg, getString(R.string.ok), getString(R.string.cancel));
+                mDialog = MessageDialog.newInstance(false, msg, getString(R.string.ok), getString(R.string.cancel));
+                mDialog.setmOnPositiveClickListener(positiveListener);
+                mDialog.setmOnNegativeClickListener(negativeListener);
+                mDialog.show(getSupportFragmentManager(), mDialog.getClass().getSimpleName());
+            }
+        });
+    }
+
+    @Override
+    public void showConfirmDialog(final boolean hasTitle, final String msg, final BaseDialog.OnPositiveClickListener positiveListener, final BaseDialog.OnNegativeClickListener negativeListener) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mDialog != null) mDialog.dismiss();
+                mDialog = MessageDialog.newInstance(hasTitle, msg, getString(R.string.ok), getString(R.string.cancel));
                 mDialog.setmOnPositiveClickListener(positiveListener);
                 mDialog.setmOnNegativeClickListener(negativeListener);
                 mDialog.show(getSupportFragmentManager(), mDialog.getClass().getSimpleName());
@@ -144,12 +183,13 @@ public abstract class MVPActivity<P extends ActivityPresenterViewOps> extends Ba
     }
 
     @Override
-    public void showConfirmDialog(final String msg, final String positive, final String negative, final BaseDialog.OnPositiveClickListener positiveListener, final BaseDialog.OnNegativeClickListener negativeListener) {
+    public void showConfirmDialog(final boolean hasTitle, final String msg, final String positive, final String negative, final BaseDialog.OnPositiveClickListener positiveListener,
+                                  final BaseDialog.OnNegativeClickListener negativeListener) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (mDialog != null) mDialog.dismiss();
-                mDialog = MessageDialog.newInstance(msg, positive, negative);
+                mDialog = MessageDialog.newInstance(hasTitle, msg, positive, negative);
                 mDialog.setmOnPositiveClickListener(positiveListener);
                 mDialog.setmOnNegativeClickListener(negativeListener);
                 mDialog.show(getSupportFragmentManager(), mDialog.getClass().getSimpleName());
@@ -190,7 +230,7 @@ public abstract class MVPActivity<P extends ActivityPresenterViewOps> extends Ba
                     if (enter != 0 && exit != 0 && popEnter != 0 && popExit != 0)
                         fragmentTransaction.setCustomAnimations(enter, exit, popEnter, popExit);
                     if (addBackStack)
-                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.addToBackStack(fragment.getClass().getSimpleName());
                     fragmentTransaction.replace(res, fragment, fragment.getClass().getSimpleName());
                     fragmentTransaction.commit();
                 } catch (Exception e) {
@@ -210,7 +250,7 @@ public abstract class MVPActivity<P extends ActivityPresenterViewOps> extends Ba
                     if (shareElement != null)
                         fragmentTransaction.addSharedElement(shareElement, transitionName);
                     if (addBackStack)
-                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.addToBackStack(fragment.getClass().getSimpleName());
                     fragmentTransaction.replace(res, fragment, fragment.getClass().getSimpleName());
                     fragmentTransaction.commit();
                 } catch (Exception e) {
@@ -220,5 +260,58 @@ public abstract class MVPActivity<P extends ActivityPresenterViewOps> extends Ba
         });
     }
 
+    @Override
+    public void popBackStack() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                getSupportFragmentManager().popBackStack();
+            }
+        });
+    }
+
+    @Override
+    public void popBackStack(final FragmentManager manager) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                manager.popBackStack();
+            }
+        });
+    }
+
+    @Override
+    public void popBackStack(final String tag) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                getSupportFragmentManager().popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
+        });
+    }
+
+    @Override
+    public void popBackStack(final FragmentManager manager, final String tag) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                manager.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
+        });
+    }
+
+    @Override
+    public void clearBackStack() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                FragmentManager fm = getSupportFragmentManager();
+                int count = fm.getBackStackEntryCount();
+                for (int i = 0; i < count; ++i) {
+                    fm.popBackStack();
+                }
+            }
+        });
+    }
     protected abstract Class<? extends ActivityPresenter> onRegisterPresenter();
 }

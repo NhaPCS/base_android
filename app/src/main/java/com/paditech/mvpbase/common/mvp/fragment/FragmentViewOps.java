@@ -28,11 +28,17 @@ public interface FragmentViewOps extends BaseViewOps {
 
     void showAlertDialog(String msg);
 
+    void showAlertDialog(boolean hasTitle, String msg);
+
+    void showAlertDialog(boolean hasTitle, String msg, BaseDialog.OnPositiveClickListener cancelListener);
+
     void showAlertDialog(String msg, BaseDialog.OnPositiveClickListener cancelListener);
+
+    void showConfirmDialog(boolean hasTitle, String msg, BaseDialog.OnPositiveClickListener positiveListener, BaseDialog.OnNegativeClickListener negativeListener);
 
     void showConfirmDialog(String msg, BaseDialog.OnPositiveClickListener positiveListener, BaseDialog.OnNegativeClickListener negativeListener);
 
-    void showConfirmDialog(String msg, String positive, String negative, BaseDialog.OnPositiveClickListener positiveListener, BaseDialog.OnNegativeClickListener negativeListener);
+    void showConfirmDialog(boolean hasTitle, String msg, String positive, String negative, BaseDialog.OnPositiveClickListener positiveListener, BaseDialog.OnNegativeClickListener negativeListener);
 
     void showToast(String msg);
 
@@ -43,5 +49,15 @@ public interface FragmentViewOps extends BaseViewOps {
     void replaceFragment(FragmentManager manager, Fragment fragment, int layout, boolean addBackStack);
 
     void replaceFragment(FragmentManager manager, Fragment fragment, boolean addBackStack, int enter, int exit, int popEnter, int popExit);
+
+    void popBackStack(FragmentManager manager);
+
+    void popBackStack();
+
+    void popBackStack(FragmentManager manager, String tag);
+
+    void popBackStack(String tag);
+
+    void clearBackStack();
 }
 

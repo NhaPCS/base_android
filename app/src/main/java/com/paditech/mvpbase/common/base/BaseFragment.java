@@ -1,11 +1,15 @@
 package com.paditech.mvpbase.common.base;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.lang.ref.WeakReference;
 
 import butterknife.ButterKnife;
 
@@ -15,6 +19,13 @@ import butterknife.ButterKnife;
 
 public abstract class BaseFragment extends Fragment {
     //protected View mRootView;
+    private WeakReference<Activity> mWeakRef;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mWeakRef = new WeakReference<Activity>((Activity) context);
+    }
 
     @Nullable
     @Override
@@ -47,5 +58,13 @@ public abstract class BaseFragment extends Fragment {
         if (getActivity() != null) {
             getActivity().runOnUiThread(runnable);
         }
+    }
+
+    public WeakReference<Activity> getmWeakRef() {
+        return mWeakRef;
+    }
+
+    public Activity getActivityReference() {
+        return mWeakRef != null ? mWeakRef.get() : null;
     }
 }

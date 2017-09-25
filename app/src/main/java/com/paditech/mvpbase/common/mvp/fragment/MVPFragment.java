@@ -93,7 +93,6 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
         super.onResume();
         mPresenter.onResume();
     }
-
     @Override
     public Context getActivityContext() {
         return getActivity();
@@ -133,6 +132,26 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
     }
 
     @Override
+    public void showAlertDialog(boolean hasTitle, String msg) {
+        try {
+            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            mvpActivity.showAlertDialog(hasTitle, msg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void showAlertDialog(boolean hasTitle, String msg, BaseDialog.OnPositiveClickListener cancelListener) {
+        try {
+            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            mvpActivity.showAlertDialog(hasTitle, msg, cancelListener);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void showAlertDialog(String msg) {
         try {
             MVPActivity mvpActivity = (MVPActivity) getActivity();
@@ -163,10 +182,10 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
     }
 
     @Override
-    public void showConfirmDialog(String msg, String positive, String negative, BaseDialog.OnPositiveClickListener positiveListener, BaseDialog.OnNegativeClickListener negativeListener) {
+    public void showConfirmDialog(boolean hasTitle, String msg, String positive, String negative, BaseDialog.OnPositiveClickListener positiveListener, BaseDialog.OnNegativeClickListener negativeListener) {
         try {
             MVPActivity mvpActivity = (MVPActivity) getActivity();
-            mvpActivity.showConfirmDialog(msg, positive, negative, positiveListener, negativeListener);
+            mvpActivity.showConfirmDialog(hasTitle, msg, positive, negative, positiveListener, negativeListener);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -177,6 +196,16 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
         try {
             MVPActivity mvpActivity = (MVPActivity) getActivity();
             mvpActivity.showConfirmDialog(msg, positiveListener, negativeListener);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void showConfirmDialog(boolean hasTitle, String msg, BaseDialog.OnPositiveClickListener positiveListener, BaseDialog.OnNegativeClickListener negativeListener) {
+        try {
+            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            mvpActivity.showConfirmDialog(hasTitle, msg, positiveListener, negativeListener);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -220,6 +249,60 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void popBackStack() {
+        try {
+            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            mvpActivity.popBackStack();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void popBackStack(FragmentManager manager) {
+        try {
+            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            mvpActivity.popBackStack(manager);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void popBackStack(String tag) {
+        try {
+            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            mvpActivity.popBackStack(tag);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void popBackStack(FragmentManager manager, String tag) {
+        try {
+            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            mvpActivity.popBackStack(manager, tag);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void clearBackStack() {
+        try {
+            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            mvpActivity.clearBackStack();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isFullScreen() {
+        return false;
     }
 
 }

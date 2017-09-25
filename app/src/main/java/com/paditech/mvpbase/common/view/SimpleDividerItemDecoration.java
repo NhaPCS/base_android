@@ -2,8 +2,10 @@ package com.paditech.mvpbase.common.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,28 +17,45 @@ import com.paditech.mvpbase.R;
  */
 
 public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration {
-    private Drawable mDivider;
+    private GradientDrawable mDivider;
     private int paddingLeft, paddingRight;
     private boolean hasLastLine = true, hasFooter = false;
+    private int color = 0xe9e9e9, line = 1;
 
     public SimpleDividerItemDecoration(Context context) {
-        mDivider = ContextCompat.getDrawable(context, R.drawable.line_divider);
-    }
-
-    public SimpleDividerItemDecoration(Context context, int drawableLine) {
-        mDivider = ContextCompat.getDrawable(context, drawableLine);
+        color = ContextCompat.getColor(context, R.color.divider);
+        mDivider = (GradientDrawable) ContextCompat.getDrawable(context, R.drawable.line_divider);
+        mDivider.setColor(color);
+        mDivider.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        mDivider.setSize(-1, line);
     }
 
     public SimpleDividerItemDecoration(Context context, int l, int r) {
+        color = ContextCompat.getColor(context, R.color.divider);
         paddingLeft = l;
         paddingRight = r;
-        mDivider = ContextCompat.getDrawable(context, R.drawable.line_divider);
+        mDivider = (GradientDrawable) ContextCompat.getDrawable(context, R.drawable.line_divider);
+        mDivider.setColor(color);
+        mDivider.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        mDivider.setSize(-1, line);
     }
 
-    public SimpleDividerItemDecoration(Context context, int drawableLine, int l, int r) {
+    public SimpleDividerItemDecoration(Context context, int color) {
+        this.color = color;
+        mDivider = (GradientDrawable) ContextCompat.getDrawable(context, R.drawable.line_divider);
+        mDivider.setColor(color);
+        mDivider.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        mDivider.setSize(-1, line);
+    }
+
+    public SimpleDividerItemDecoration(Context context, int color, int l, int r) {
+        this.color = color;
         paddingLeft = l;
         paddingRight = r;
-        mDivider = ContextCompat.getDrawable(context, drawableLine);
+        mDivider = (GradientDrawable) ContextCompat.getDrawable(context, R.drawable.line_divider);
+        mDivider.setColor(color);
+        mDivider.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        mDivider.setSize(-1, line);
     }
 
     public void setHasLastLine(boolean hasLastLine) {

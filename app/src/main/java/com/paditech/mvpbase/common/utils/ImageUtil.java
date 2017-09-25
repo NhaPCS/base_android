@@ -1,5 +1,6 @@
 package com.paditech.mvpbase.common.utils;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -17,8 +18,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.paditech.mvpbase.R;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -193,5 +196,32 @@ public class ImageUtil {
             e.printStackTrace();
             return "";
         }
+    }
+
+
+    public static String getFileFromStream(Context context, Uri uri, String testID) {
+        ContentResolver resolver = context.getContentResolver();
+        File directory = new File(Environment.getExternalStorageDirectory(), context.getPackageName());
+        if (!directory.exists() && !directory.mkdirs()) {
+            return "";
+        }
+        File file = new File(directory, testID);
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            InputStream inputStream = resolver.openInputStream(uri);
+            int read = 0;
+            byte[] bytes = new byte[1024];
+            if (inputStream != null) {
+                while ((read = inputStream.read(bytes)) != -1) {
+                    fileOutputStream.write(bytes, 0, read);
+                }
+                return file.getAbsolutePath();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
