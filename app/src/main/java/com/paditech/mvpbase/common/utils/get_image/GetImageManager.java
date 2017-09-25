@@ -192,7 +192,7 @@ public class GetImageManager {
     }
 
     private void notShouldShowPermission() {
-        ((MVPActivity) getActivity()).showConfirmDialog(getContext().getString(R.string.mess_permission_storage),
+        ((MVPActivity) getActivity()).showConfirmDialog(false, getContext().getString(R.string.mess_permission_storage),
                 getContext().getString(R.string.ok), getContext().getString(R.string.cancel),
                 new BaseDialog.OnPositiveClickListener() {
                     @Override
@@ -278,7 +278,7 @@ public class GetImageManager {
     }
 
     private void notShouldShowCameraPermission() {
-        ((MVPActivity) getActivity()).showConfirmDialog(getContext().getString(R.string.mess_permission_storage),
+        ((MVPActivity) getActivity()).showConfirmDialog(false, getContext().getString(R.string.mess_permission_storage),
                 getContext().getString(R.string.ok), getContext().getString(R.string.cancel), new BaseDialog.OnPositiveClickListener() {
                     @Override
                     public void onPositiveClick() {

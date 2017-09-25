@@ -144,7 +144,7 @@ public class GetLocationManager implements GoogleApiClient.OnConnectionFailedLis
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                         PERMISSION_LOCATION);
             } else {
-                getActivity().showConfirmDialog(getContext().getString(R.string.mess_permission_location)
+                getActivity().showConfirmDialog(false, getContext().getString(R.string.mess_permission_location)
                         , getContext().getString(R.string.ok), getContext().getString(R.string.cancel)
                         , new BaseDialog.OnPositiveClickListener() {
                             @Override
