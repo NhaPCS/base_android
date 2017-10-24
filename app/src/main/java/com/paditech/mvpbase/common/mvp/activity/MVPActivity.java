@@ -69,6 +69,8 @@ public abstract class MVPActivity<P extends ActivityPresenterViewOps> extends Ba
         mPresenter = (P) PresenterFactory.getInstance().createPresenter(PRESENTER_ID, this);
     }
 
+    protected abstract Class<? extends ActivityPresenter> onRegisterPresenter();
+
     @Override
     public Context getActivityContext() {
         return this;
@@ -308,5 +310,15 @@ public abstract class MVPActivity<P extends ActivityPresenterViewOps> extends Ba
             }
         });
     }
-    protected abstract Class<? extends ActivityPresenter> onRegisterPresenter();
+
+    @Override
+    public void onLoadDone() {
+
+    }
+
+    @Override
+    public void onLoading() {
+
+    }
+
 }

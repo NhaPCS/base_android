@@ -36,7 +36,6 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
 
     public P mPresenter;
 
-    protected abstract Class<? extends FragmentPresenter> onRegisterPresenter();
 
     @Nullable
     @Override
@@ -61,6 +60,8 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
             return super.onCreateView(inflater, container, savedInstanceState);
         }
     }
+    
+    protected abstract Class<? extends FragmentPresenter> onRegisterPresenter();
 
     protected void refreshPresenter() {
         mPresenter.onRelease();
@@ -305,4 +306,13 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
         return false;
     }
 
+    @Override
+    public void onLoadDone() {
+
+    }
+
+    @Override
+    public void onLoading() {
+
+    }
 }
