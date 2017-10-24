@@ -19,6 +19,11 @@ public class BaseApplication extends MultiDexApplication {
     protected void attachBaseContext(Context context) {
         super.attachBaseContext(context);
         MultiDex.install(this);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
         Fabric.with(this, new Crashlytics());
     }
 }
