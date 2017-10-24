@@ -65,5 +65,9 @@ public interface ActivityViewOps extends BaseViewOps {
     void popBackStack(String tag);
 
     void clearBackStack();
+
+    void onLoading();
+
+    void onLoadDone();
 }
 

@@ -1,12 +1,8 @@
 package com.paditech.mvpbase.common.mvp.activity;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,7 +14,6 @@ import com.paditech.mvpbase.common.base.BaseActivity;
 import com.paditech.mvpbase.common.base.BaseDialog;
 import com.paditech.mvpbase.common.dialog.MessageDialog;
 import com.paditech.mvpbase.common.mvp.PresenterFactory;
-import com.paditech.mvpbase.common.utils.CommonUtil;
 
 /**
  * Created by Nha Nha on 6/27/2017.

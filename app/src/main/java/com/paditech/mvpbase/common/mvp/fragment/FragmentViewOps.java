@@ -59,5 +59,9 @@ public interface FragmentViewOps extends BaseViewOps {
     void popBackStack(String tag);
 
     void clearBackStack();
+
+    void onLoading();
+
+    void onLoadDone();
 }
 
