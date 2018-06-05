@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MVPBase.iml" filepath="$PROJECT_DIR$/MVPBase.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/base_android.iml" filepath="$PROJECT_DIR$/base_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/base_padi/base_padi.iml" filepath="$PROJECT_DIR$/base_padi/base_padi.iml" />
     </modules>
   </component>
 </project>

@@ -1,28 +1,19 @@
 package com.paditech.mvpbase.screen.main;
 
-import android.widget.Toast;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 
 import com.paditech.mvpbase.R;
-import com.paditech.mvpbase.common.mvp.activity.ActivityPresenter;
-import com.paditech.mvpbase.common.mvp.activity.MVPActivity;
 
 /**
  * Created by Nha Nha on 9/19/2017.
  */
 
-public class MainActivity extends MVPActivity<MainContact.PresenterViewOps> implements MainContact.ViewOps {
+public class MainActivity extends AppCompatActivity {
     @Override
-    protected int getContentView() {
-        return R.layout.activity_main;
-    }
-
-    @Override
-    protected void initView() {
-
-    }
-
-    @Override
-    protected Class<? extends ActivityPresenter> onRegisterPresenter() {
-        return MainPresenter.class;
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
     }
 }
