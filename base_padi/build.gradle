@@ -1,12 +1,7 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.novoda.bintray-release' // must be applied after your artifact generating plugin (eg. java / com.android.library)
 
-version = "1.0.0"
-group = "com.paditech.base"
 
-def siteUrl = 'https://github.com/taivn07/base_android'
-def gitUrl = 'https://github.com/taivn07/base_android.git'
 
 android {
     compileSdkVersion 27
@@ -28,55 +23,6 @@ android {
         }
     }
 
-}
-
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-
-    configurations = ['archives']
-    pkg {
-        repo = "maven"
-        name = "BasePadi"
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = ["Apache-2.0"]
-        publish = true
-    }
-}
-
-install {
-    repositories.mavenInstaller {
-        pom {
-            project {
-                packaging 'aar'
-                name 'A simple formatter library which formats dates in a fuzzy form for display in apps. '
-                url siteUrl
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'nhapcs'
-                        name 'Pham Nha'
-                        email 'phamnha0209.1995@gmail.com'
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-
-                }
-            }
-        }
-    }
 }
 
 dependencies {
@@ -108,49 +54,11 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.0.0'
 }
 
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-
-task findConventions << {
-    println project.getConvention()
-}
-tasks.withType(Javadoc) {
-    options.addStringOption('Xdoclint:none', '-quiet')
-    options.addStringOption('encoding', 'UTF-8')
-    options.addStringOption('charSet', 'UTF-8')
-}
-
-task createPom {
-    pom {
-        project {
-            groupId 'com.paditech.base'
-            artifactId 'base_padi'
-            version '1.0.0'
-
-            inceptionYear '2018'
-            licenses {
-                license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    distribution 'repo'
-                }
-            }
-        }
-    }.writeTo("pom.xml")
+publish {
+    userOrg = 'nhapcs'
+    groupId = 'com.paditech.base'
+    artifactId = 'mvp'
+    publishVersion = '1.0.1'
+    desc = 'It is my lib base for Android'
+    website = 'https://github.com/taivn07/base_android'
 }
