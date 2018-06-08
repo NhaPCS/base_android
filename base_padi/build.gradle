@@ -61,4 +61,6 @@ publish {
     publishVersion = '1.0.1'
     desc = 'It is my lib base for Android'
     website = 'https://github.com/taivn07/base_android'
+    bintrayUser = "nhapcs"
+    bintrayKey = "2c5cbdab2a2202dc0b08a923fe4fed4debefb0f4"
 }

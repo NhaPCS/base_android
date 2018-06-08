@@ -25,7 +25,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * <p/>
  * Created by Paditech on 1/9/2017.
  * Copyright (c) 2015 Paditech. All rights reserved.
  */
