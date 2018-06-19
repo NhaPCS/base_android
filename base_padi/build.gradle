@@ -61,7 +61,7 @@ publish {
     userOrg = 'nhapcs'
     groupId = 'com.paditech.base'
     artifactId = 'mvp'
-    publishVersion = '1.0.1'
+    publishVersion = '1.0.11'
     desc = 'It is my lib base for Android'
     website = 'https://github.com/taivn07/base_android'
     bintrayUser = "nhapcs"
