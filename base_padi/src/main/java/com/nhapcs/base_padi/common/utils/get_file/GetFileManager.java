@@ -20,8 +20,8 @@ import android.widget.ImageView;
 
 import com.nhapcs.base_padi.R;
 import com.nhapcs.base_padi.common.base.BaseDialog;
-import com.nhapcs.base_padi.common.mvp.activity.MVPActivity;
-import com.nhapcs.base_padi.common.mvp.fragment.MVPFragment;
+import com.nhapcs.base_padi.common.mvvm.MVVMActivity;
+import com.nhapcs.base_padi.common.mvvm.MVVMFragment;
 import com.nhapcs.base_padi.common.utils.ImageUtil;
 import com.nhapcs.base_padi.common.utils.StringUtil;
 
@@ -36,25 +36,25 @@ public class GetFileManager {
     public static final int SETTING_STORAGE = 301;
     public static final int OPEN_SELECT_FILE = 201;
 
-    private MVPActivity mActivity;
-    private MVPFragment mFragment;
+    private MVVMActivity mActivity;
+    private MVVMFragment mFragment;
 
     private String mFileSelected;
     private GetFileListener mGetFileListener;
 
-    public GetFileManager(MVPActivity mActivity, ImageView imageView) {
+    public GetFileManager(MVVMActivity mActivity, ImageView imageView) {
         this.mActivity = mActivity;
     }
 
-    public GetFileManager(MVPFragment mFragment, ImageView imageView) {
+    public GetFileManager(MVVMFragment mFragment, ImageView imageView) {
         this.mFragment = mFragment;
     }
 
-    public GetFileManager(MVPActivity mActivity) {
+    public GetFileManager(MVVMActivity mActivity) {
         this(mActivity, null);
     }
 
-    public GetFileManager(MVPFragment mFragment) {
+    public GetFileManager(MVVMFragment mFragment) {
         this(mFragment, null);
     }
 
@@ -118,7 +118,7 @@ public class GetFileManager {
     }
 
     private void notShouldShowPermission() {
-        ((MVPActivity) getActivity()).showConfirmDialog(false, getContext().getString(R.string.mess_permission_storage),
+        ((MVVMActivity) getActivity()).showConfirmDialog(false, getContext().getString(R.string.mess_permission_storage),
                 getContext().getString(R.string.ok), getContext().getString(R.string.cancel),
                 new BaseDialog.OnPositiveClickListener() {
                     @Override

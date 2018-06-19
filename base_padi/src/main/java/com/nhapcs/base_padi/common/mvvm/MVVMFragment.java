@@ -1,7 +1,11 @@
-package com.nhapcs.base_padi.common.mvp.fragment;
+package com.nhapcs.base_padi.common.mvvm;
 
+import android.app.Activity;
 import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,110 +14,85 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nhapcs.base_padi.common.base.BaseDialog;
-import com.nhapcs.base_padi.common.base.BaseFragment;
-import com.nhapcs.base_padi.common.mvp.PresenterFactory;
-import com.nhapcs.base_padi.common.mvp.activity.MVPActivity;
+import com.nhapcs.base_padi.common.mvvm.view_model.BaseViewModel;
 
+import java.lang.ref.WeakReference;
 
 /**
- * Use this class to apply MVP into your Activity
- * This class build base on BaseActivity.
- * How to use:
- * 1.Create your PresenterOps extend FragmentPresenterViewOps.
- * 2.Create your BasePresenter extend ActivityPresenter that implement your PresenterOps.
- * 3.Put your PresenterOps into Generic type on top of class.
- * 4.Put BasePresenter class type on onRegisterPresenter() method.
- * 5.Create your RequiredViewOps and implement if necessary
- * 6.Now you can access your BasePresenter through mPresenter variable to control your View.
+ * Created by nhapcs on 6/9/18.
  */
-public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends BaseFragment implements FragmentViewOps {
-    private static String P_ID;
+public abstract class MVVMFragment<T extends ViewDataBinding, V extends BaseViewModel> extends Fragment implements Navigator {
 
-    public P getPresenter() {
-        return mPresenter;
+    private MVVMActivity baseActivity;
+    private ViewDataBinding dataBinding;
+    private BaseViewModel viewModel;
+    private WeakReference<Activity> mWeakRef;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mWeakRef = new WeakReference<Activity>((Activity) context);
     }
 
-    public P mPresenter;
-
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setInjection();
+        super.onCreate(savedInstanceState);
+        viewModel = getViewModel();
+    }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        P_ID = getClass().getSimpleName();
-        registerPresenter();
-        initPresenter();
-        mPresenter.onCreate();
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-
-    protected abstract Class<? extends FragmentPresenter> onRegisterPresenter();
-
-    protected void refreshPresenter() {
-        mPresenter.onRelease();
-        initPresenter();
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        dataBinding = DataBindingUtil.inflate(inflater, getContentView(), container, false);
+        return dataBinding.getRoot();
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.onDestroy();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        dataBinding.setVariable(getVariableId(), viewModel);
+        dataBinding.executePendingBindings();
+        if (viewModel != null) viewModel.setNavigator(this);
+    }
+
+    public Activity getActivityReference() {
+        return mWeakRef != null ? mWeakRef.get() : null;
+    }
+
+    protected abstract int getContentView();
+
+    protected abstract BaseViewModel getViewModel();
+
+    protected abstract int getVariableId();
+
+    protected abstract void setInjection();
+
+    @Override
+    public void onLoading() {
 
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        mPresenter.onPause();
+    public void onLoadDone() {
+
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (hidden) {
-            mPresenter.onResumeVisible();
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mPresenter.onResume();
-    }
-
-    @Override
-    public Context getActivityContext() {
-        return getActivity();
-    }
-
-    @Override
-    public Context getApplicationContext() {
-        return getActivity().getApplicationContext();
-    }
-
-    private void initPresenter() {
-        mPresenter = (P) PresenterFactory.getInstance().createPresenter(P_ID, this);
-    }
-
-    private void registerPresenter() {
-        PresenterFactory.getInstance().registerPresenter(this.getClass().getSimpleName(), onRegisterPresenter());
-    }
-
-    @Override
-    public void showProgressbar() {
+    public void showLoading() {
         try {
-            MVPActivity mvpActivity = (MVPActivity) getActivity();
-            mvpActivity.showProgressbar();
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
+            mvpActivity.showLoading();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void hideProgressbar() {
+    public void hideLoading() {
         try {
-            MVPActivity mvpActivity = (MVPActivity) getActivity();
-            mvpActivity.hideProgressbar();
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
+            mvpActivity.hideLoading();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -122,7 +101,7 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
     @Override
     public void showAlertDialog(boolean hasTitle, String msg) {
         try {
-            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
             mvpActivity.showAlertDialog(hasTitle, msg);
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,7 +111,7 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
     @Override
     public void showAlertDialog(boolean hasTitle, String msg, BaseDialog.OnPositiveClickListener cancelListener) {
         try {
-            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
             mvpActivity.showAlertDialog(hasTitle, msg, cancelListener);
         } catch (Exception e) {
             e.printStackTrace();
@@ -142,7 +121,7 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
     @Override
     public void showAlertDialog(String msg) {
         try {
-            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
             mvpActivity.showAlertDialog(msg);
         } catch (Exception e) {
             e.printStackTrace();
@@ -152,7 +131,7 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
     @Override
     public void showAlertDialog(String msg, BaseDialog.OnPositiveClickListener positiveListener) {
         try {
-            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
             mvpActivity.showAlertDialog(msg, positiveListener);
         } catch (Exception e) {
             e.printStackTrace();
@@ -162,7 +141,7 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
     @Override
     public void showToast(String msg) {
         try {
-            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
             mvpActivity.showToast(msg);
         } catch (Exception e) {
             e.printStackTrace();
@@ -172,7 +151,7 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
     @Override
     public void showConfirmDialog(boolean hasTitle, String msg, String positive, String negative, BaseDialog.OnPositiveClickListener positiveListener, BaseDialog.OnNegativeClickListener negativeListener) {
         try {
-            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
             mvpActivity.showConfirmDialog(hasTitle, msg, positive, negative, positiveListener, negativeListener);
         } catch (Exception e) {
             e.printStackTrace();
@@ -182,7 +161,7 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
     @Override
     public void showConfirmDialog(String msg, BaseDialog.OnPositiveClickListener positiveListener, BaseDialog.OnNegativeClickListener negativeListener) {
         try {
-            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
             mvpActivity.showConfirmDialog(msg, positiveListener, negativeListener);
         } catch (Exception e) {
             e.printStackTrace();
@@ -192,7 +171,7 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
     @Override
     public void showConfirmDialog(boolean hasTitle, String msg, BaseDialog.OnPositiveClickListener positiveListener, BaseDialog.OnNegativeClickListener negativeListener) {
         try {
-            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
             mvpActivity.showConfirmDialog(hasTitle, msg, positiveListener, negativeListener);
         } catch (Exception e) {
             e.printStackTrace();
@@ -202,7 +181,7 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
     @Override
     public void replaceFragment(Fragment fragment, boolean addBackStack) {
         try {
-            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
             mvpActivity.replaceFragment(fragment, addBackStack);
         } catch (Exception e) {
             e.printStackTrace();
@@ -212,7 +191,7 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
     @Override
     public void replaceFragment(Fragment fragment, int layout, boolean addBackStack) {
         try {
-            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
             mvpActivity.replaceFragment(fragment, layout, addBackStack);
         } catch (Exception e) {
             e.printStackTrace();
@@ -222,7 +201,7 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
     @Override
     public void replaceFragment(FragmentManager manager, Fragment fragment, boolean addBackStack, int enter, int exit, int popEnter, int popExit) {
         try {
-            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
             mvpActivity.replaceFragment(manager, fragment, addBackStack, enter, exit, popEnter, popExit);
         } catch (Exception e) {
             e.printStackTrace();
@@ -232,7 +211,7 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
     @Override
     public void replaceFragment(FragmentManager manager, Fragment fragment, int layout, boolean addBackStack) {
         try {
-            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
             mvpActivity.replaceFragment(manager, fragment, layout, addBackStack);
         } catch (Exception e) {
             e.printStackTrace();
@@ -242,7 +221,7 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
     @Override
     public void popBackStack() {
         try {
-            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
             mvpActivity.popBackStack();
         } catch (Exception e) {
             e.printStackTrace();
@@ -252,7 +231,7 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
     @Override
     public void popBackStack(FragmentManager manager) {
         try {
-            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
             mvpActivity.popBackStack(manager);
         } catch (Exception e) {
             e.printStackTrace();
@@ -262,7 +241,7 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
     @Override
     public void popBackStack(String tag) {
         try {
-            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
             mvpActivity.popBackStack(tag);
         } catch (Exception e) {
             e.printStackTrace();
@@ -272,8 +251,28 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
     @Override
     public void popBackStack(FragmentManager manager, String tag) {
         try {
-            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
             mvpActivity.popBackStack(manager, tag);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void replaceFragment(FragmentManager manager, Fragment fragment, int res, boolean addBackStack, int enter, int exit, int popEnter, int popExit) {
+        try {
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
+            mvpActivity.replaceFragment(manager, fragment, res, addBackStack, enter, exit, popEnter, popExit);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void replaceFragment(FragmentManager manager, Fragment fragment, int res, boolean addBackStack, View shareElement, String transitionName) {
+        try {
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
+            mvpActivity.replaceFragment(manager, fragment, res, addBackStack, shareElement, transitionName);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -282,24 +281,11 @@ public abstract class MVPFragment<P extends FragmentPresenterViewOps> extends Ba
     @Override
     public void clearBackStack() {
         try {
-            MVPActivity mvpActivity = (MVPActivity) getActivity();
+            MVVMActivity mvpActivity = (MVVMActivity) getActivity();
             mvpActivity.clearBackStack();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public boolean isFullScreen() {
-        return false;
-    }
-
-    @Override
-    public void onLoadDone() {
-
-    }
-
-    @Override
-    public void onLoading() {
-
-    }
 }

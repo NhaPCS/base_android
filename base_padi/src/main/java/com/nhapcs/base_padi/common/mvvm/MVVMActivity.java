@@ -1,95 +1,163 @@
-package com.nhapcs.base_padi.common.mvp.activity;
+package com.nhapcs.base_padi.common.mvvm;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.nhapcs.base_padi.R;
-import com.nhapcs.base_padi.common.base.BaseActivity;
 import com.nhapcs.base_padi.common.base.BaseDialog;
+import com.nhapcs.base_padi.common.dialog.LoadingDialog;
 import com.nhapcs.base_padi.common.dialog.MessageDialog;
-import com.nhapcs.base_padi.common.mvp.PresenterFactory;
-
+import com.nhapcs.base_padi.common.mvvm.view_model.BaseViewModel;
+import com.nhapcs.base_padi.common.utils.CommonUtil;
 
 /**
- * Created by Nha Nha on 6/27/2017.
+ * Created by nhapcs on 6/9/18.
  */
+public abstract class MVVMActivity<T extends ViewDataBinding, V extends BaseViewModel> extends AppCompatActivity implements Navigator {
+    private static final String CONNECT_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
 
-public abstract class MVPActivity<P extends ActivityPresenterViewOps> extends BaseActivity implements ActivityViewOps {
-    private static String PRESENTER_ID;
-
+    private LoadingDialog mLoadingDialog;
+    private Snackbar mSnackbarNoConnect;
     private MessageDialog mDialog;
 
-    public P mPresenter;
+    private T dataBinding;
+    private V viewModel;
 
-    public P getPresenter() {
-        return mPresenter;
+    public T getDataBinding() {
+        return dataBinding;
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setInjection();
+        super.onCreate(savedInstanceState);
+        initDataBinding();
+        mLoadingDialog = new LoadingDialog();
+        setupSnackBar();
         try {
-            PRESENTER_ID = getClass().getSimpleName() + System.currentTimeMillis();
-            registerPresenter();
-            initPresenter();
+            initView();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        super.onCreate(savedInstanceState);
-        mPresenter.onCreate();
+
+    }
+
+    private void initDataBinding() {
+        dataBinding = DataBindingUtil.setContentView(this, getContentView());
+        viewModel = viewModel == null ? initViewModel() : viewModel;
+        dataBinding.setVariable(getVariableId(), viewModel);
+        dataBinding.executePendingBindings();
+        if (viewModel != null) viewModel.setNavigator(this);
+        Log.e("viewModel", viewModel + "");
+    }
+
+    protected abstract int getContentView();
+
+    protected abstract V initViewModel();
+
+    protected abstract int getVariableId();
+
+    protected abstract void initView();
+
+    protected abstract void setInjection();
+
+
+    public V getViewModel() {
+        return viewModel;
     }
 
     @Override
-    protected void onPause() {
-        mPresenter.onPause();
-        super.onPause();
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.from_left, R.anim.to_right);
     }
+
+    public void setupSnackBar() {
+        try {
+            View view = getWindow().getDecorView().findViewById(android.R.id.content);
+            if (view != null) {
+                mSnackbarNoConnect = Snackbar.make(view, getString(R.string.mess_no_connect), Snackbar.LENGTH_INDEFINITE);
+                registerReceiver(mConnectReceiver, new IntentFilter(CONNECT_ACTION));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private BroadcastReceiver mConnectReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(CONNECT_ACTION)) {
+                if (!CommonUtil.hasConnected(context)) {
+                    if (mSnackbarNoConnect != null) mSnackbarNoConnect.show();
+                } else {
+                    if (mSnackbarNoConnect != null) mSnackbarNoConnect.dismiss();
+                }
+            }
+        }
+    };
 
     @Override
     protected void onDestroy() {
-        mPresenter.onDestroy();
+        try {
+            unregisterReceiver(mConnectReceiver);
+        } catch (Exception ignored) {
+        }
         super.onDestroy();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.onResume();
-    }
-
-    private void registerPresenter() {
-        PresenterFactory.getInstance().registerPresenter(PRESENTER_ID, onRegisterPresenter());
-    }
-
-    private void initPresenter() {
-        mPresenter = (P) PresenterFactory.getInstance().createPresenter(PRESENTER_ID, this);
-    }
-
-    protected abstract Class<? extends ActivityPresenter> onRegisterPresenter();
-
-    @Override
-    public Context getActivityContext() {
-        return this;
+        if (mSnackbarNoConnect != null && !CommonUtil.hasConnected(this)) mSnackbarNoConnect.show();
     }
 
     @Override
-    public Context getApplicationContext() {
-        return super.getApplicationContext();
+    public void onLoading() {
+
     }
 
     @Override
-    public void showProgressbar() {
-        showLoadingDialog();
+    public void onLoadDone() {
+
     }
 
     @Override
-    public void hideProgressbar() {
-        hideLoadingDialog();
+    public void showLoading() {
+        try {
+            if (mLoadingDialog != null) {
+                mLoadingDialog.dismiss();
+                mLoadingDialog.show(getSupportFragmentManager(), mLoadingDialog.getClass().getSimpleName());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void hideLoading() {
+        try {
+            if (mLoadingDialog != null) {
+                mLoadingDialog.dismiss();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -175,7 +243,7 @@ public abstract class MVPActivity<P extends ActivityPresenterViewOps> extends Ba
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getActivityContext(), msg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -311,15 +379,4 @@ public abstract class MVPActivity<P extends ActivityPresenterViewOps> extends Ba
             }
         });
     }
-
-    @Override
-    public void onLoadDone() {
-
-    }
-
-    @Override
-    public void onLoading() {
-
-    }
-
 }

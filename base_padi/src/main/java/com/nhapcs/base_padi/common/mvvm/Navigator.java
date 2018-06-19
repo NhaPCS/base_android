@@ -1,35 +1,20 @@
-package com.nhapcs.base_padi.common.mvp.activity;
+package com.nhapcs.base_padi.common.mvvm;
 
-
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import com.nhapcs.base_padi.common.base.BaseDialog;
-import com.nhapcs.base_padi.common.mvp.BaseViewOps;
 
 /**
- * This class contain all common behavior for Activity in this App
+ * Created by nhapcs on 6/9/18.
  */
-public interface ActivityViewOps extends BaseViewOps {
-
-    /**
-     * @return context of View
-     */
-    Context getActivityContext();
-
-    /**
-     * @return context of Application
-     */
-    Context getApplicationContext();
-
-    void showProgressbar();
-
-    void hideProgressbar();
-
+public interface Navigator {
+    void onLoading();
+    void onLoadDone();
+    void showLoading();
+    void hideLoading();
     void showAlertDialog(String msg);
-
     void showAlertDialog(boolean hasTitle, String msg);
 
     void showAlertDialog(boolean hasTitle, String msg, BaseDialog.OnPositiveClickListener cancelListener);
@@ -66,8 +51,4 @@ public interface ActivityViewOps extends BaseViewOps {
 
     void clearBackStack();
 
-    void onLoading();
-
-    void onLoadDone();
 }
-

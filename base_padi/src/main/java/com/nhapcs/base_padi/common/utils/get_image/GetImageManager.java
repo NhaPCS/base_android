@@ -18,12 +18,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 
-
 import com.nhapcs.base_padi.R;
 import com.nhapcs.base_padi.common.base.BaseDialog;
 import com.nhapcs.base_padi.common.dialog.SelectImageDialog;
-import com.nhapcs.base_padi.common.mvp.activity.MVPActivity;
-import com.nhapcs.base_padi.common.mvp.fragment.MVPFragment;
+import com.nhapcs.base_padi.common.mvvm.MVVMActivity;
+import com.nhapcs.base_padi.common.mvvm.MVVMFragment;
 import com.nhapcs.base_padi.common.utils.ImageUtil;
 import com.nhapcs.base_padi.common.utils.StringUtil;
 
@@ -51,8 +50,8 @@ public class GetImageManager {
     public static final int SETTING_STORAGE = 301;
     public static final int SETTING_CAMRA = 302;
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss");
-    private MVPActivity mActivity;
-    private MVPFragment mFragment;
+    private MVVMActivity mActivity;
+    private MVVMFragment mFragment;
 
     private String mImageFilePath;
     private ImageView mImageView;
@@ -78,7 +77,7 @@ public class GetImageManager {
         void onPhotoSelect(String photoPath);
     }
 
-    public GetImageManager(MVPActivity mActivity, ImageView imageView) {
+    public GetImageManager(MVVMActivity mActivity, ImageView imageView) {
         this.mActivity = mActivity;
         this.mImageView = imageView;
         mListPhotoSelected = new ArrayList<>();
@@ -86,7 +85,7 @@ public class GetImageManager {
         this.IMAGE_PATH = getContext().getPackageName();
     }
 
-    public GetImageManager(MVPFragment mFragment, ImageView imageView) {
+    public GetImageManager(MVVMFragment mFragment, ImageView imageView) {
         this.mImageView = imageView;
         this.mFragment = mFragment;
         mListPhotoSelected = new ArrayList<>();
@@ -94,11 +93,11 @@ public class GetImageManager {
         this.IMAGE_PATH = getContext().getPackageName();
     }
 
-    public GetImageManager(MVPActivity mActivity) {
+    public GetImageManager(MVVMActivity mActivity) {
         this(mActivity, null);
     }
 
-    public GetImageManager(MVPFragment mFragment) {
+    public GetImageManager(MVVMFragment mFragment) {
         this(mFragment, null);
     }
 
@@ -193,7 +192,7 @@ public class GetImageManager {
     }
 
     private void notShouldShowPermission() {
-        ((MVPActivity) getActivity()).showConfirmDialog(false, getContext().getString(R.string.mess_permission_storage),
+        ((MVVMActivity) getActivity()).showConfirmDialog(false, getContext().getString(R.string.mess_permission_storage),
                 getContext().getString(R.string.ok), getContext().getString(R.string.cancel),
                 new BaseDialog.OnPositiveClickListener() {
                     @Override
@@ -272,7 +271,7 @@ public class GetImageManager {
     }
 
     private void notShouldShowCameraPermission() {
-        ((MVPActivity) getActivity()).showConfirmDialog(false, getContext().getString(R.string.mess_permission_storage),
+        ((MVVMActivity) getActivity()).showConfirmDialog(false, getContext().getString(R.string.mess_permission_storage),
                 getContext().getString(R.string.ok), getContext().getString(R.string.cancel), new BaseDialog.OnPositiveClickListener() {
                     @Override
                     public void onPositiveClick() {

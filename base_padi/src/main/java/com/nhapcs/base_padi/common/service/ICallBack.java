@@ -1,8 +1,5 @@
 package com.nhapcs.base_padi.common.service;
 
-import com.google.gson.Gson;
-import com.nhapcs.base_padi.common.service.response.BaseResponse;
-
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -30,8 +27,6 @@ public abstract class ICallBack implements Callback {
     public void onResponse(Call call, Response response) throws IOException {
         try {
             String body = response.body().string();
-            BaseResponse baseResponse = new Gson().fromJson(body, BaseResponse.class);
-            onResponse(body, response.isSuccessful());
         } catch (Exception e) {
             e.printStackTrace();
             onFailure(call, new IOException());

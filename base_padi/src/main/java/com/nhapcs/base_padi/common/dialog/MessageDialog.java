@@ -1,24 +1,19 @@
 package com.nhapcs.base_padi.common.dialog;
 
 import android.view.View;
-import android.widget.TextView;
 
+import com.nhapcs.base_padi.BR;
 import com.nhapcs.base_padi.R;
 import com.nhapcs.base_padi.common.base.BaseDialog;
-import com.nhapcs.base_padi.common.utils.StringUtil;
+import com.nhapcs.base_padi.common.mvvm.view_model.MessageViewModel;
+import com.nhapcs.base_padi.databinding.DialogMessageBinding;
 
-import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by Nha Nha on 6/28/2017.
  */
 
-public class MessageDialog extends BaseDialog {
-    TextView mTvMessage;
-    TextView mBtnOk;
-    TextView mBtnCancel;
-    View mLine;
+public class MessageDialog extends BaseDialog<DialogMessageBinding, MessageViewModel> {
 
     private OnPositiveClickListener mOnPositiveClickListener;
     private OnNegativeClickListener mOnNegativeClickListener;
@@ -65,18 +60,14 @@ public class MessageDialog extends BaseDialog {
 
     @Override
     protected void initView(View view) {
-        mTvMessage = view.findViewById(R.id.tv_message);
-        mBtnOk = view.findViewById(R.id.btn_ok);
-        mBtnCancel = view.findViewById(R.id.btn_cancel);
-        mLine = view.findViewById(R.id.line);
-        mBtnOk.setOnClickListener(new View.OnClickListener() {
+     /*   getDataBinding().btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
                 if (mOnPositiveClickListener != null) mOnPositiveClickListener.onPositiveClick();
             }
         });
-        mBtnCancel.setOnClickListener(new View.OnClickListener() {
+        getDataBinding().btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
@@ -84,20 +75,25 @@ public class MessageDialog extends BaseDialog {
             }
         });
         if (!StringUtil.isEmpty(message)) {
-            mTvMessage.setText(message);
+            getDataBinding().tvMessage.setText(message);
         }
         if (!StringUtil.isEmpty(okText)) {
-            mBtnOk.setText(okText);
+            getDataBinding().btnOk.setText(okText);
         }
 
         if (!StringUtil.isEmpty(cancelText)) {
-            mLine.setVisibility(View.VISIBLE);
-            mBtnCancel.setVisibility(View.VISIBLE);
-            mBtnCancel.setText(cancelText);
+            getDataBinding().line.setVisibility(View.VISIBLE);
+            getDataBinding().btnCancel.setVisibility(View.VISIBLE);
+            getDataBinding().btnCancel.setText(cancelText);
         } else {
-            mBtnCancel.setVisibility(View.GONE);
-            mLine.setVisibility(View.GONE);
-        }
+            getDataBinding().btnCancel.setVisibility(View.GONE);
+            getDataBinding().line.setVisibility(View.GONE);
+        }*/
+    }
+
+    @Override
+    protected int getVariableId() {
+        return BR.viewModel;
     }
 
 }

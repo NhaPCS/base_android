@@ -1,5 +1,7 @@
 package com.nhapcs.base_padi.common.base;
 
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -13,13 +15,17 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import butterknife.ButterKnife;
+import com.nhapcs.base_padi.common.mvvm.view_model.BaseViewModel;
+
 
 /**
  * Created by Nha Nha on 11/3/2016.
  */
 
-public abstract class BaseDialog extends AppCompatDialogFragment {
+public abstract class BaseDialog<D extends ViewDataBinding, V extends BaseViewModel> extends AppCompatDialogFragment {
+
+    private D dataBinding;
+    private V viewModel;
 
     @Nullable
     @Override
@@ -33,10 +39,21 @@ public abstract class BaseDialog extends AppCompatDialogFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        View view = inflater.inflate(getContentView(), container, false);
-        ButterKnife.bind(this, view);
+        dataBinding = DataBindingUtil.inflate(inflater, getContentView(), container, false);
+        dataBinding.setVariable(getVariableId(), viewModel);
+        dataBinding.executePendingBindings();
+        View view = dataBinding.getRoot();
         initView(view);
         return view;
+    }
+
+
+    public D getDataBinding() {
+        return dataBinding;
+    }
+
+    public V getViewModel() {
+        return viewModel;
     }
 
     @Override
@@ -62,6 +79,8 @@ public abstract class BaseDialog extends AppCompatDialogFragment {
     protected abstract int getContentView();
 
     protected abstract void initView(View view);
+
+    protected abstract int getVariableId();
 
     public interface OnPositiveClickListener {
         void onPositiveClick();

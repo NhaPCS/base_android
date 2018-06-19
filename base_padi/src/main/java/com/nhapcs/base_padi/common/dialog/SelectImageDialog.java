@@ -15,10 +15,6 @@ import android.view.Window;
 
 import com.nhapcs.base_padi.R;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * Visunite
  * <p>
@@ -50,7 +46,6 @@ public class SelectImageDialog extends BottomSheetDialogFragment {
             e.printStackTrace();
         }
         View view = inflater.inflate(R.layout.dialog_pick_image, container, false);
-        ButterKnife.bind(this, view);
         view.findViewById(R.id.btn_pick_image).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
