@@ -40,6 +40,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
+    //data binding
+    annotationProcessor 'com.android.databinding:compiler:3.1.3'
+
     //support lib
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.android.support:appcompat-v7:27.1.1'
@@ -70,7 +73,7 @@ publish {
     userOrg = 'nhapcs'
     groupId = 'com.nhapcs.base'
     artifactId = 'mvvm'
-    publishVersion = '0.0.1'
+    publishVersion = '0.0.28'
     desc = 'It is my lib base for Android'
     website = 'https://github.com/NhaPCS/base_android'
     bintrayUser = "nhapcs"

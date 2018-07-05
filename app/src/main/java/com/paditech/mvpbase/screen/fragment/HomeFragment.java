@@ -1,6 +1,7 @@
 package com.paditech.mvpbase.screen.fragment;
 
 import android.util.Log;
+import android.view.View;
 
 import com.nhapcs.base_padi.common.mvvm.MVVMFragment;
 import com.nhapcs.base_padi.common.mvvm.Navigator;
@@ -38,6 +39,10 @@ public class HomeFragment extends MVVMFragment<FragHomeBinding, HomeViewModel> i
     @Override
     protected void setInjection() {
         ((MyApplication) getActivityReference().getApplication()).getAppComponent().inject(this);
+    }
+
+    @Override
+    protected void initView(View view) {
     }
 
 

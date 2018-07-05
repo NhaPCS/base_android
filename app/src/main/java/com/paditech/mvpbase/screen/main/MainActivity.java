@@ -12,6 +12,7 @@ import com.paditech.mvpbase.R;
 import com.paditech.mvpbase.BR;
 import com.paditech.mvpbase.databinding.ActMainBinding;
 import com.paditech.mvpbase.model.Category;
+import com.paditech.mvpbase.screen.fragment.HomeFragment;
 
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class MainActivity extends MVVMActivity<ActMainBinding, MainViewModel> im
     @Override
     protected void initView() {
         new Handler().postDelayed(() -> showAlertDialog("Ahihi"), 3000);
+        replaceFragment(new HomeFragment(), true);
     }
 
     @Override

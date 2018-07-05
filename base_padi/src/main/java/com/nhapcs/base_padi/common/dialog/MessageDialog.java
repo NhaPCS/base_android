@@ -6,6 +6,7 @@ import com.nhapcs.base_padi.BR;
 import com.nhapcs.base_padi.R;
 import com.nhapcs.base_padi.common.base.BaseDialog;
 import com.nhapcs.base_padi.common.mvvm.view_model.MessageViewModel;
+import com.nhapcs.base_padi.common.utils.StringUtil;
 import com.nhapcs.base_padi.databinding.DialogMessageBinding;
 
 
@@ -60,7 +61,7 @@ public class MessageDialog extends BaseDialog<DialogMessageBinding, MessageViewM
 
     @Override
     protected void initView(View view) {
-     /*   getDataBinding().btnOk.setOnClickListener(new View.OnClickListener() {
+        getDataBinding().btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
@@ -88,7 +89,7 @@ public class MessageDialog extends BaseDialog<DialogMessageBinding, MessageViewM
         } else {
             getDataBinding().btnCancel.setVisibility(View.GONE);
             getDataBinding().line.setVisibility(View.GONE);
-        }*/
+        }
     }
 
     @Override

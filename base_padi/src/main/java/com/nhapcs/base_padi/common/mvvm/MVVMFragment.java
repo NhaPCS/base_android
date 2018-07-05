@@ -23,9 +23,8 @@ import java.lang.ref.WeakReference;
  */
 public abstract class MVVMFragment<T extends ViewDataBinding, V extends BaseViewModel> extends Fragment implements Navigator {
 
-    private MVVMActivity baseActivity;
-    private ViewDataBinding dataBinding;
-    private BaseViewModel viewModel;
+    protected T dataBinding;
+    protected V viewModel;
     private WeakReference<Activity> mWeakRef;
 
     @Override
@@ -48,12 +47,19 @@ public abstract class MVVMFragment<T extends ViewDataBinding, V extends BaseView
         return dataBinding.getRoot();
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         dataBinding.setVariable(getVariableId(), viewModel);
         dataBinding.executePendingBindings();
         if (viewModel != null) viewModel.setNavigator(this);
+        try {
+            initView(view);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public Activity getActivityReference() {
@@ -62,11 +68,13 @@ public abstract class MVVMFragment<T extends ViewDataBinding, V extends BaseView
 
     protected abstract int getContentView();
 
-    protected abstract BaseViewModel getViewModel();
+    protected abstract V getViewModel();
 
     protected abstract int getVariableId();
 
     protected abstract void setInjection();
+
+    protected abstract void initView(View view);
 
     @Override
     public void onLoading() {

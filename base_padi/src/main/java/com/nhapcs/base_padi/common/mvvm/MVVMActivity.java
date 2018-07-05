@@ -140,10 +140,13 @@ public abstract class MVVMActivity<T extends ViewDataBinding, V extends BaseView
     @Override
     public void showLoading() {
         try {
-            if (mLoadingDialog != null) {
-                mLoadingDialog.dismiss();
-                mLoadingDialog.show(getSupportFragmentManager(), mLoadingDialog.getClass().getSimpleName());
+            if (mLoadingDialog == null) {
+                mLoadingDialog = new LoadingDialog();
             }
+            if (mLoadingDialog.isVisible()) {
+                mLoadingDialog.dismiss();
+            }
+            mLoadingDialog.show(getSupportFragmentManager(), mLoadingDialog.getClass().getSimpleName());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -152,7 +155,7 @@ public abstract class MVVMActivity<T extends ViewDataBinding, V extends BaseView
     @Override
     public void hideLoading() {
         try {
-            if (mLoadingDialog != null) {
+            if (mLoadingDialog != null && mLoadingDialog.isVisible()) {
                 mLoadingDialog.dismiss();
             }
         } catch (Exception e) {
@@ -165,7 +168,7 @@ public abstract class MVVMActivity<T extends ViewDataBinding, V extends BaseView
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mDialog != null) mDialog.dismiss();
+                if (mDialog != null && mDialog.isVisible()) mDialog.dismiss();
                 mDialog = MessageDialog.newInstance(false, msg);
                 mDialog.show(getSupportFragmentManager(), mDialog.getClass().getSimpleName());
             }
@@ -177,7 +180,7 @@ public abstract class MVVMActivity<T extends ViewDataBinding, V extends BaseView
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mDialog != null) mDialog.dismiss();
+                if (mDialog != null && mDialog.isVisible()) mDialog.dismiss();
                 mDialog = MessageDialog.newInstance(true, msg);
                 mDialog.show(getSupportFragmentManager(), mDialog.getClass().getSimpleName());
             }
@@ -189,7 +192,7 @@ public abstract class MVVMActivity<T extends ViewDataBinding, V extends BaseView
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mDialog != null) mDialog.dismiss();
+                if (mDialog != null && mDialog.isVisible()) mDialog.dismiss();
                 mDialog = MessageDialog.newInstance(hasTitle, msg);
                 mDialog.setmOnPositiveClickListener(positiveClickListener);
                 mDialog.show(getSupportFragmentManager(), mDialog.getClass().getSimpleName());
@@ -202,7 +205,7 @@ public abstract class MVVMActivity<T extends ViewDataBinding, V extends BaseView
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mDialog != null) mDialog.dismiss();
+                if (mDialog != null && mDialog.isVisible()) mDialog.dismiss();
                 mDialog = MessageDialog.newInstance(false, msg);
                 mDialog.setmOnPositiveClickListener(positiveClickListener);
                 mDialog.show(getSupportFragmentManager(), mDialog.getClass().getSimpleName());
@@ -215,7 +218,7 @@ public abstract class MVVMActivity<T extends ViewDataBinding, V extends BaseView
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mDialog != null) mDialog.dismiss();
+                if (mDialog != null && mDialog.isVisible()) mDialog.dismiss();
                 mDialog = MessageDialog.newInstance(false, msg, getString(R.string.ok), getString(R.string.cancel));
                 mDialog.setmOnPositiveClickListener(positiveListener);
                 mDialog.setmOnNegativeClickListener(negativeListener);
@@ -229,7 +232,7 @@ public abstract class MVVMActivity<T extends ViewDataBinding, V extends BaseView
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mDialog != null) mDialog.dismiss();
+                if (mDialog != null && mDialog.isVisible()) mDialog.dismiss();
                 mDialog = MessageDialog.newInstance(hasTitle, msg, getString(R.string.ok), getString(R.string.cancel));
                 mDialog.setmOnPositiveClickListener(positiveListener);
                 mDialog.setmOnNegativeClickListener(negativeListener);
@@ -254,7 +257,7 @@ public abstract class MVVMActivity<T extends ViewDataBinding, V extends BaseView
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mDialog != null) mDialog.dismiss();
+                if (mDialog != null && mDialog.isVisible()) mDialog.dismiss();
                 mDialog = MessageDialog.newInstance(hasTitle, msg, positive, negative);
                 mDialog.setmOnPositiveClickListener(positiveListener);
                 mDialog.setmOnNegativeClickListener(negativeListener);
