@@ -1,9 +1,11 @@
 package com.nhapcs.base_padi.common.mvvm;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 
+import com.nhapcs.base_padi.common.base.BaseApplication;
 import com.nhapcs.base_padi.common.base.BaseDialog;
 
 /**
@@ -50,5 +52,11 @@ public interface Navigator {
     void popBackStack(String tag);
 
     void clearBackStack();
+
+    Context getBaseContext();
+
+    MVVMActivity getBaseActivity();
+
+    BaseApplication getBaseApplication();
 
 }

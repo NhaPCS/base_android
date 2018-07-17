@@ -1,0 +1,4 @@
+
+bsquid:UselessImportCheck"@Remove this unused import 'android.databinding.ViewDataBinding'.(Ž–þ­
+csquid:MaximumInheritanceDepth"<This class has 8 parents which is greater than 5 authorized.(Ç¿²¡
+}squid:UselessImportCheck"VRemove this unused import 'com.nhapcs.base_padi.common.mvvm.view_model.BaseViewModel'.(»º£±þÿÿÿÿ

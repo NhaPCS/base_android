@@ -1,0 +1,5 @@
+
+isquid:UselessImportCheck"@Remove this unused import 'android.databinding.ViewDataBinding'.(Ž–þ­8®ÙÑÚÂ,
+Dsquid:S1148"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ8®ÙÑÚÂ,
+„squid:UselessImportCheck"VRemove this unused import 'com.nhapcs.base_padi.common.mvvm.view_model.BaseViewModel'.(»º£±þÿÿÿÿ8®ÙÑÚÂ,
+vsquid:UselessImportCheck"HRemove this unused import 'com.nhapcs.base_padi.common.base.BaseDialog'.(Ãÿ‰Ûþÿÿÿÿ8®ÙÑÚÂ,

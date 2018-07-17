@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.nhapcs.base_padi.R;
+import com.nhapcs.base_padi.common.base.BaseApplication;
 import com.nhapcs.base_padi.common.base.BaseDialog;
 import com.nhapcs.base_padi.common.dialog.LoadingDialog;
 import com.nhapcs.base_padi.common.dialog.MessageDialog;
@@ -76,6 +77,8 @@ public abstract class MVVMActivity<T extends ViewDataBinding, V extends BaseView
 
     protected abstract void setInjection();
 
+    protected abstract boolean hasAutoCheckNetwork();
+
 
     public V getViewModel() {
         return viewModel;
@@ -89,10 +92,12 @@ public abstract class MVVMActivity<T extends ViewDataBinding, V extends BaseView
 
     public void setupSnackBar() {
         try {
-            View view = getWindow().getDecorView().findViewById(android.R.id.content);
-            if (view != null) {
-                mSnackbarNoConnect = Snackbar.make(view, getString(R.string.mess_no_connect), Snackbar.LENGTH_INDEFINITE);
-                registerReceiver(mConnectReceiver, new IntentFilter(CONNECT_ACTION));
+            if (hasAutoCheckNetwork()) {
+                View view = getWindow().getDecorView().findViewById(android.R.id.content);
+                if (view != null) {
+                    mSnackbarNoConnect = Snackbar.make(view, getString(R.string.mess_no_connect), Snackbar.LENGTH_INDEFINITE);
+                    registerReceiver(mConnectReceiver, new IntentFilter(CONNECT_ACTION));
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -114,9 +119,11 @@ public abstract class MVVMActivity<T extends ViewDataBinding, V extends BaseView
 
     @Override
     protected void onDestroy() {
-        try {
-            unregisterReceiver(mConnectReceiver);
-        } catch (Exception ignored) {
+        if (hasAutoCheckNetwork()) {
+            try {
+                unregisterReceiver(mConnectReceiver);
+            } catch (Exception ignored) {
+            }
         }
         super.onDestroy();
     }
@@ -382,4 +389,20 @@ public abstract class MVVMActivity<T extends ViewDataBinding, V extends BaseView
             }
         });
     }
+
+    @Override
+    public BaseApplication getBaseApplication() {
+        return (BaseApplication) getApplication();
+    }
+
+    @Override
+    public MVVMActivity getBaseActivity() {
+        return this;
+    }
+
+    @Override
+    public Context getBaseContext() {
+        return this;
+    }
+
 }

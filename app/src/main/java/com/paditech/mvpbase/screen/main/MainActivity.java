@@ -54,6 +54,11 @@ public class MainActivity extends MVVMActivity<ActMainBinding, MainViewModel> im
         ((MyApplication) getApplication()).getAppComponent().inject(this);
     }
 
+    @Override
+    protected boolean hasAutoCheckNetwork() {
+        return false;
+    }
+
 
     @Override
     public void updateData(List<Category> categories) {

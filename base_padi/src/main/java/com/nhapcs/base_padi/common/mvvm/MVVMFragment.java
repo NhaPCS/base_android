@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.nhapcs.base_padi.common.base.BaseApplication;
 import com.nhapcs.base_padi.common.base.BaseDialog;
 import com.nhapcs.base_padi.common.mvvm.view_model.BaseViewModel;
 
@@ -294,6 +295,21 @@ public abstract class MVVMFragment<T extends ViewDataBinding, V extends BaseView
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Context getBaseContext() {
+        return getContext();
+    }
+
+    @Override
+    public MVVMActivity getBaseActivity() {
+        return (MVVMActivity) getActivityReference();
+    }
+
+    @Override
+    public BaseApplication getBaseApplication() {
+        return (BaseApplication) getActivityReference().getApplication();
     }
 
 }

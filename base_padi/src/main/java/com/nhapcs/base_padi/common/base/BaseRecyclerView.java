@@ -13,6 +13,8 @@ public abstract class BaseRecyclerView extends RecyclerView.Adapter<BaseViewHold
         this.mItemClickListener = mItemClickListener;
     }
 
+    protected abstract Object getItem(int index);
+
     @Override
     public void onBindViewHolder(@NonNull final BaseViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         holder.itemView.setOnClickListener(new View.OnClickListener() {

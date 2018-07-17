@@ -1,32 +1,30 @@
-package com.nhapcs.base_padi.common.dialog;
+package com.nhapcs.base_padi.common.base;
 
+import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.nhapcs.base_padi.R;
-import com.nhapcs.base_padi.common.base.BaseDialog;
 import com.nhapcs.base_padi.common.mvvm.view_model.BaseViewModel;
 
-/**
- * Created by Nha Nha on 5/30/2017.
- */
+public abstract class BaseBottomDialog<D extends ViewDataBinding, V extends BaseViewModel> extends BottomSheetDialogFragment {
 
-public class LoadingDialog extends AppCompatDialogFragment {
+    private D dataBinding;
+    private V viewModel;
+
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         try {
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             getDialog().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -36,7 +34,21 @@ public class LoadingDialog extends AppCompatDialogFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return inflater.inflate(R.layout.dialog_loading, container, false);
+        dataBinding = DataBindingUtil.inflate(inflater, getContentView(), container, false);
+        dataBinding.setVariable(getVariableId(), viewModel);
+        dataBinding.executePendingBindings();
+        View view = dataBinding.getRoot();
+        initView(view);
+        return view;
+    }
+
+
+    public D getDataBinding() {
+        return dataBinding;
+    }
+
+    public V getViewModel() {
+        return viewModel;
     }
 
     @Override
@@ -58,6 +70,13 @@ public class LoadingDialog extends AppCompatDialogFragment {
         }
         return -1;
     }
+
+    protected abstract int getContentView();
+
+    protected abstract void initView(View view);
+
+    protected abstract int getVariableId();
+
 
     @Override
     public void dismiss() {

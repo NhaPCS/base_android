@@ -89,4 +89,9 @@ public abstract class BaseDialog<D extends ViewDataBinding, V extends BaseViewMo
     public interface OnNegativeClickListener {
         void onNegativeClick();
     }
+
+    @Override
+    public void dismiss() {
+        super.dismissAllowingStateLoss();
+    }
 }

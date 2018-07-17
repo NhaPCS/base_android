@@ -73,7 +73,7 @@ publish {
     userOrg = 'nhapcs'
     groupId = 'com.nhapcs.base'
     artifactId = 'mvvm'
-    publishVersion = '0.0.29'
+    publishVersion = '0.0.30'
     desc = 'It is my lib base for Android'
     website = 'https://github.com/NhaPCS/base_android'
     bintrayUser = "nhapcs"
