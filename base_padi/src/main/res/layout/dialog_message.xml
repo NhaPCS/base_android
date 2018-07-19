@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.nhapcs.base_padi.common.mvvm.view_model.MessageViewModel" />
+            type="com.nhapcs.base_padi.common.dialog.MessageDialog" />
     </data>
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"

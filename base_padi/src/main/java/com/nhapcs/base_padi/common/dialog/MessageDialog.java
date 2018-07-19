@@ -2,10 +2,8 @@ package com.nhapcs.base_padi.common.dialog;
 
 import android.view.View;
 
-import com.nhapcs.base_padi.BR;
 import com.nhapcs.base_padi.R;
 import com.nhapcs.base_padi.common.base.BaseDialog;
-import com.nhapcs.base_padi.common.mvvm.view_model.MessageViewModel;
 import com.nhapcs.base_padi.common.utils.StringUtil;
 import com.nhapcs.base_padi.databinding.DialogMessageBinding;
 
@@ -14,7 +12,7 @@ import com.nhapcs.base_padi.databinding.DialogMessageBinding;
  * Created by Nha Nha on 6/28/2017.
  */
 
-public class MessageDialog extends BaseDialog<DialogMessageBinding, MessageViewModel> {
+public class MessageDialog extends BaseDialog<DialogMessageBinding> {
 
     private OnPositiveClickListener mOnPositiveClickListener;
     private OnNegativeClickListener mOnNegativeClickListener;
@@ -90,11 +88,6 @@ public class MessageDialog extends BaseDialog<DialogMessageBinding, MessageViewM
             getDataBinding().btnCancel.setVisibility(View.GONE);
             getDataBinding().line.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    protected int getVariableId() {
-        return BR.viewModel;
     }
 
 }

@@ -298,7 +298,7 @@ public abstract class MVVMFragment<T extends ViewDataBinding, V extends BaseView
     }
 
     @Override
-    public Context getBaseContext() {
+    public Context getMainContext() {
         return getContext();
     }
 

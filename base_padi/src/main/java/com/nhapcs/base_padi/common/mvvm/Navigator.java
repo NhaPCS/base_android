@@ -53,7 +53,7 @@ public interface Navigator {
 
     void clearBackStack();
 
-    Context getBaseContext();
+    Context getMainContext();
 
     MVVMActivity getBaseActivity();
 

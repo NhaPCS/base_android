@@ -1,6 +1,5 @@
 package com.nhapcs.base_padi.common.dialog;
 
-import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -16,8 +15,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.nhapcs.base_padi.R;
-import com.nhapcs.base_padi.common.base.BaseDialog;
-import com.nhapcs.base_padi.common.mvvm.view_model.BaseViewModel;
 
 /**
  * Created by Nha Nha on 5/30/2017.
