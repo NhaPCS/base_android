@@ -1,5 +1,6 @@
 package com.nhapcs.base_padi.common.dialog;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import com.nhapcs.base_padi.R;
  */
 
 public class LoadingDialog extends AppCompatDialogFragment {
+    private boolean isShow;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -38,7 +41,9 @@ public class LoadingDialog extends AppCompatDialogFragment {
 
     @Override
     public void show(FragmentManager manager, String tag) {
+        if (isAdded() || isShow) return;
         try {
+            isShow = true;
             super.show(manager, tag);
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,7 +53,9 @@ public class LoadingDialog extends AppCompatDialogFragment {
 
     @Override
     public int show(FragmentTransaction transaction, String tag) {
+        if (isAdded() || isShow) return -1;
         try {
+            isShow = true;
             return super.show(transaction, tag);
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,6 +65,25 @@ public class LoadingDialog extends AppCompatDialogFragment {
 
     @Override
     public void dismiss() {
+        isShow = false;
         super.dismissAllowingStateLoss();
+    }
+
+    @Override
+    public void dismissAllowingStateLoss() {
+        isShow = false;
+        super.dismissAllowingStateLoss();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        isShow = false;
+        super.onDismiss(dialog);
+    }
+
+    @Override
+    public void onDestroy() {
+        isShow = false;
+        super.onDestroy();
     }
 }

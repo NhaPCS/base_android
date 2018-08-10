@@ -1,5 +1,6 @@
 package com.nhapcs.base_padi.common.base;
 
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
@@ -23,6 +24,7 @@ import android.view.WindowManager;
 
 public abstract class BaseDialog<D extends ViewDataBinding> extends AppCompatDialogFragment {
 
+    private boolean isShow;
     private D dataBinding;
 
     @Nullable
@@ -58,7 +60,9 @@ public abstract class BaseDialog<D extends ViewDataBinding> extends AppCompatDia
 
     @Override
     public void show(FragmentManager manager, String tag) {
+        if (isAdded() || isShow) return;
         try {
+            isShow = true;
             super.show(manager, tag);
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,13 +72,16 @@ public abstract class BaseDialog<D extends ViewDataBinding> extends AppCompatDia
 
     @Override
     public int show(FragmentTransaction transaction, String tag) {
+        if (isAdded() || isShow) return -1;
         try {
+            isShow = true;
             return super.show(transaction, tag);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return -1;
     }
+
 
     protected abstract int getContentView();
 
@@ -90,6 +97,25 @@ public abstract class BaseDialog<D extends ViewDataBinding> extends AppCompatDia
 
     @Override
     public void dismiss() {
+        isShow = false;
         super.dismissAllowingStateLoss();
+    }
+
+    @Override
+    public void dismissAllowingStateLoss() {
+        isShow = false;
+        super.dismissAllowingStateLoss();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        isShow = false;
+        super.onDismiss(dialog);
+    }
+
+    @Override
+    public void onDestroy() {
+        isShow = false;
+        super.onDestroy();
     }
 }

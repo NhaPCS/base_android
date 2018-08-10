@@ -1,5 +1,6 @@
 package com.nhapcs.base_padi.common.base;
 
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
@@ -20,6 +21,7 @@ public abstract class BaseBottomDialog<D extends ViewDataBinding> extends Bottom
 
 
     private D dataBinding;
+    private boolean isShow;
 
 
     @Nullable
@@ -55,7 +57,9 @@ public abstract class BaseBottomDialog<D extends ViewDataBinding> extends Bottom
 
     @Override
     public void show(FragmentManager manager, String tag) {
+        if (isAdded() || isShow) return;
         try {
+            isShow = true;
             super.show(manager, tag);
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,7 +69,9 @@ public abstract class BaseBottomDialog<D extends ViewDataBinding> extends Bottom
 
     @Override
     public int show(FragmentTransaction transaction, String tag) {
+        if (isAdded() || isShow) return -1;
         try {
+            isShow = true;
             return super.show(transaction, tag);
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,6 +86,25 @@ public abstract class BaseBottomDialog<D extends ViewDataBinding> extends Bottom
 
     @Override
     public void dismiss() {
+        isShow = false;
         super.dismissAllowingStateLoss();
+    }
+
+    @Override
+    public void dismissAllowingStateLoss() {
+        isShow = false;
+        super.dismissAllowingStateLoss();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        isShow = false;
+        super.onDismiss(dialog);
+    }
+
+    @Override
+    public void onDestroy() {
+        isShow = false;
+        super.onDestroy();
     }
 }

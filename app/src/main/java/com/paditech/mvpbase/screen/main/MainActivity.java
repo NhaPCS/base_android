@@ -45,7 +45,7 @@ public class MainActivity extends MVVMActivity<ActMainBinding, MainViewModel> im
 
     @Override
     protected void initView() {
-        new Handler().postDelayed(() -> showAlertDialog("Ahihi"), 3000);
+        new Handler().postDelayed(() -> showConfirmDialog("Ahihi", null, null), 3000);
         replaceFragment(new HomeFragment(), true);
     }
 

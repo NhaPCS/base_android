@@ -150,10 +150,9 @@ public abstract class MVVMActivity<T extends ViewDataBinding, V extends BaseView
             if (mLoadingDialog == null) {
                 mLoadingDialog = new LoadingDialog();
             }
-            if (mLoadingDialog.isVisible()) {
-                mLoadingDialog.dismiss();
+            if (!mLoadingDialog.isAdded()) {
+                mLoadingDialog.show(getSupportFragmentManager(), mLoadingDialog.getClass().getSimpleName());
             }
-            mLoadingDialog.show(getSupportFragmentManager(), mLoadingDialog.getClass().getSimpleName());
         } catch (Exception e) {
             e.printStackTrace();
         }
