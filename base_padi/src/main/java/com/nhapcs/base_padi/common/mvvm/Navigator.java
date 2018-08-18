@@ -59,4 +59,6 @@ public interface Navigator {
 
     BaseApplication getBaseApplication();
 
+    void notifyViewModelDataChange();
+
 }

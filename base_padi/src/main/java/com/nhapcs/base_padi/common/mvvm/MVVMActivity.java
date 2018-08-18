@@ -404,4 +404,9 @@ public abstract class MVVMActivity<T extends ViewDataBinding, V extends BaseView
         return this;
     }
 
+    @Override
+    public void notifyViewModelDataChange() {
+        dataBinding.executePendingBindings();
+        dataBinding.setVariable(getVariableId(), viewModel);
+    }
 }

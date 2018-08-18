@@ -312,4 +312,9 @@ public abstract class MVVMFragment<T extends ViewDataBinding, V extends BaseView
         return (BaseApplication) getActivityReference().getApplication();
     }
 
+    @Override
+    public void notifyViewModelDataChange() {
+        dataBinding.executePendingBindings();
+        dataBinding.setVariable(getVariableId(), viewModel);
+    }
 }

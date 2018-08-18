@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-public abstract class BaseRecyclerView extends RecyclerView.Adapter<BaseViewHolder> {
+public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private OnItemClickListener mItemClickListener;
 
@@ -13,7 +13,7 @@ public abstract class BaseRecyclerView extends RecyclerView.Adapter<BaseViewHold
         this.mItemClickListener = mItemClickListener;
     }
 
-    protected abstract Object getItem(int index);
+    public abstract Object getItem(int index);
 
     @Override
     public void onBindViewHolder(@NonNull final BaseViewHolder holder, @SuppressLint("RecyclerView") final int position) {
