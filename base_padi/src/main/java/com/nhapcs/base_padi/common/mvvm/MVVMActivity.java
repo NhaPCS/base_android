@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nhapcs.base_padi.R;
@@ -96,6 +98,7 @@ public abstract class MVVMActivity<T extends ViewDataBinding, V extends BaseView
                 View view = getWindow().getDecorView().findViewById(android.R.id.content);
                 if (view != null) {
                     mSnackbarNoConnect = Snackbar.make(view, getString(R.string.mess_no_connect), Snackbar.LENGTH_INDEFINITE);
+                    mSnackbarNoConnect.setActionTextColor(Color.WHITE);
                     registerReceiver(mConnectReceiver, new IntentFilter(CONNECT_ACTION));
                 }
             }

@@ -213,7 +213,9 @@ public class LoadMoreRecyclerView extends RecyclerView {
                 mLoadMoreView = LayoutInflater.from(getContext()).inflate(R.layout.view_loadmore, parent, false);
                 return new SimpleViewHolder(mLoadMoreView);
             }
-            return adapter.onCreateViewHolder(parent, viewType);
+            if (adapter != null)
+                return adapter.onCreateViewHolder(parent, viewType);
+            else return null;
         }
 
         @Override
@@ -288,12 +290,14 @@ public class LoadMoreRecyclerView extends RecyclerView {
                     }
                 });
             }
-            adapter.onAttachedToRecyclerView(recyclerView);
+            if (adapter != null)
+                adapter.onAttachedToRecyclerView(recyclerView);
         }
 
         @Override
         public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
-            adapter.onDetachedFromRecyclerView(recyclerView);
+            if (adapter != null)
+                adapter.onDetachedFromRecyclerView(recyclerView);
         }
 
         @Override
@@ -306,17 +310,20 @@ public class LoadMoreRecyclerView extends RecyclerView {
                 StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) lp;
                 p.setFullSpan(true);
             }
-            adapter.onViewAttachedToWindow(holder);
+            if (adapter != null)
+                adapter.onViewAttachedToWindow(holder);
         }
 
         @Override
         public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
-            adapter.onViewDetachedFromWindow(holder);
+            if (adapter != null)
+                adapter.onViewDetachedFromWindow(holder);
         }
 
         @Override
         public void onViewRecycled(RecyclerView.ViewHolder holder) {
-            adapter.onViewRecycled(holder);
+            if (adapter != null)
+                adapter.onViewRecycled(holder);
         }
 
         @Override
@@ -326,12 +333,14 @@ public class LoadMoreRecyclerView extends RecyclerView {
 
         @Override
         public void unregisterAdapterDataObserver(AdapterDataObserver observer) {
-            adapter.unregisterAdapterDataObserver(observer);
+            if (adapter != null)
+                adapter.unregisterAdapterDataObserver(observer);
         }
 
         @Override
         public void registerAdapterDataObserver(AdapterDataObserver observer) {
-            adapter.registerAdapterDataObserver(observer);
+            if (adapter != null)
+                adapter.registerAdapterDataObserver(observer);
         }
 
         private class SimpleViewHolder extends RecyclerView.ViewHolder {
@@ -360,27 +369,32 @@ public class LoadMoreRecyclerView extends RecyclerView {
 
         @Override
         public void onItemRangeInserted(int positionStart, int itemCount) {
-            mWrapAdapter.notifyItemRangeInserted(positionStart, itemCount);
+            if (mWrapAdapter != null)
+                mWrapAdapter.notifyItemRangeInserted(positionStart, itemCount);
         }
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount) {
-            mWrapAdapter.notifyItemRangeChanged(positionStart, itemCount);
+            if (mWrapAdapter != null)
+                mWrapAdapter.notifyItemRangeChanged(positionStart, itemCount);
         }
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
-            mWrapAdapter.notifyItemRangeChanged(positionStart, itemCount, payload);
+            if (mWrapAdapter != null)
+                mWrapAdapter.notifyItemRangeChanged(positionStart, itemCount, payload);
         }
 
         @Override
         public void onItemRangeRemoved(int positionStart, int itemCount) {
-            mWrapAdapter.notifyItemRangeRemoved(positionStart, itemCount);
+            if (mWrapAdapter != null)
+                mWrapAdapter.notifyItemRangeRemoved(positionStart, itemCount);
         }
 
         @Override
         public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-            mWrapAdapter.notifyItemMoved(fromPosition, toPosition);
+            if (mWrapAdapter != null)
+                mWrapAdapter.notifyItemMoved(fromPosition, toPosition);
         }
     }
 
