@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.widget.ImageView;
 
 import com.nhapcs.base_padi.R;
@@ -296,14 +297,16 @@ public class GetImageManager {
         try {
             if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
-                File photoDirectory = new File(Environment.getExternalStorageDirectory(), IMAGE_PATH);
+                File photoDirectory = new File(Environment.getExternalStorageDirectory(), getContext().getPackageName());
                 if (!photoDirectory.exists() && !photoDirectory.mkdirs()) {
                     return;
                 }
                 File photo = new File(photoDirectory, String.format(IMAGE_FILE_NAME, SIMPLE_DATE_FORMAT.format(new Date())));
                 mImageFilePath = photo.getPath();
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                Uri mPhotoUri = Uri.fromFile(photo);
+                Uri mPhotoUri = FileProvider.getUriForFile(getContext(),
+                        getContext().getPackageName() + ".provider",
+                        photo);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, mPhotoUri);
                 if (mActivity != null)
                     mActivity.startActivityForResult(intent, OPEN_CAMERA);

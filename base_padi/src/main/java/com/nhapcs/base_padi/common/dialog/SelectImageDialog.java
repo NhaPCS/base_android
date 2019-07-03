@@ -101,6 +101,6 @@ public class SelectImageDialog extends BottomSheetDialogFragment {
 
     @Override
     public void dismiss() {
-
+        dismissAllowingStateLoss();
     }
 }
